@@ -64,7 +64,7 @@ object SparkPredict {
 
     //assemble raw feature
     val assembler = new VectorAssembler()
-      .setInputCols(Array("MonthCat", "DayOfMonthCat", "DayOfWeekCat", "UniqueCarrierCat",  "DepTime", "CRSDepTime", "CRSArrTime","CRSElapsedTime","DepDelay", "Distance"))
+      .setInputCols(Array("MonthCat", "DayOfMonthCat", "DayOfWeekCat", "UniqueCarrierCat",  "DepTime", "CRSDepTime", "TaxiOut","CRSArrTime","CRSElapsedTime","DepDelay", "Distance"))
       .setOutputCol("features")
 
     def preppedLRPipeline():TrainValidationSplit = {
