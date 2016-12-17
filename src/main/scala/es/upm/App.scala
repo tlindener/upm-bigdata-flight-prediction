@@ -33,9 +33,9 @@ object SparkPredict {
         csv(path).drop("ActualElapsedTime","AirTime","TaxiIn","Diverted","ArrTime", "CarrierDelay", "WeatherDelay", "NASDelay", "SecurityDelay", "LateAircraftDelay")
 
       data.select( data("Year").cast(IntegerType).as("Year"),
-        data("Month"),
-        data("DayofMonth").as("DayOfMonth"),
-        data("DayofWeek").as("DayOfWeek"),
+        data("Month").cast(IntegerType),
+        data("DayofMonth").cast(IntegerType).as("DayOfMonth"),
+        data("DayofWeek").cast(IntegerType).as("DayOfWeek"),
         data("DepTime").cast(IntegerType).as("DepTime"),
         data("CRSDepTime").cast(IntegerType).as("CRSDepTime"),
         data("CRSArrTime").cast(IntegerType).as("CRSArrTime"),
@@ -55,12 +55,11 @@ object SparkPredict {
 
     val trainingData =  prepareData(pathTrainingData)
 
-    val monthIndexer = new StringIndexer().setInputCol("Month").setOutputCol("MonthCat")
-    val dayofMonthIndexer = new StringIndexer().setInputCol("DayOfMonth").setOutputCol("DayOfMonthCat")
-    val dayOfWeekIndexer = new StringIndexer().setInputCol("DayOfWeek").setOutputCol("DayOfWeekCat")
+    val monthIndexer = new OneHotEncoder().setInputCol("Month").setOutputCol("MonthCat")
+    val dayofMonthIndexer = new OneHotEncoder().setInputCol("DayOfMonth").setOutputCol("DayOfMonthCat")
+    val dayOfWeekIndexer = new OneHotEncoder().setInputCol("DayOfWeek").setOutputCol("DayOfWeekCat")
     val uniqueCarrierIndexer = new StringIndexer().setInputCol("UniqueCarrier").setOutputCol("UniqueCarrierCat")
-    //		val originIndexer = new StringIndexer().setInputCol("Origin").setOutputCol("OriginCat")
-    //		val destinationIndexer = new StringIndexer().setInputCol("Destination").setOutputCol("DestinationCat")
+
 
     //assemble raw feature
     val assembler = new VectorAssembler()
